@@ -13,7 +13,7 @@ Stop:  type  quit / exit / /bye  or press Ctrl+C
 import datetime
 import sys
 
-from llama_index.core.llms import Ollama
+from llama_index.llms.ollama import Ollama
 from llama_index.core.memory import ChatMemoryBuffer
 from llama_index.core.chat_engine import SimpleChatEngine
 
