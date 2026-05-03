@@ -43,7 +43,7 @@ HISTORY_BUFFER = 4500
 
 # Example filename:  session_20260425_143207.md
 timestamp    = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-SESSION_FILE = f"output/chat_session_{_ts}.md"
+SESSION_FILE = f"output/chat_session_{timestamp}.md"
 
 
 # ════════════════════════════════════════════════════════════════════════════
