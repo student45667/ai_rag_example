@@ -124,9 +124,12 @@ def run():
                 print("Goodbye!")
                 break
 
-            # send message to model and print reply
-            response = chat_engine.chat(user_input)
-            print(f"\nBot: {response}\n")
+            # send message to model and stream reply token by token
+            response = chat_engine.stream_chat(user_input)
+            print("\nBot: ", end="", flush=True)
+            for token in response.response_gen:
+                print(token, end="", flush=True)
+            print("\n")
             print("-" * 50)
 
     except KeyboardInterrupt:
