@@ -32,6 +32,7 @@ from llama_index.core import StorageContext
 
 OLLAMA_URL = "http://10.0.0.38:11434"  # ← Change to your Linux IP
 LLM_MODEL = "qwen2.5-coder:7b"
+#LLM_MODEL = "qwen3.5:latest"
 EMBED_MODEL = "nomic-embed-text"
 CHROMA_PATH = "./chroma_db"
 COLLECTION = "code_files"
@@ -40,7 +41,7 @@ COLLECTION = "code_files"
 # LLM Settings — Control how the language model responds
 # ────────────────────────────────────────────────────────────────────────────
 
-TEMPERATURE = 0.5
+TEMPERATURE = 0.2
 # Controls response creativity/randomness (range: 0.0 to 2.0)
 #   0.1-0.3  = Very focused, deterministic (best for code & technical Q&A)
 #   0.5      = Balanced (default - good for general use)
@@ -201,6 +202,9 @@ def query(question, conversation_history=None):
     context_percentage = min(context_percentage, 100)  # Cap at 100%
     
     # Create context bar visualization
+    
+    """ 
+    
     bar_length = 30
     filled = int((context_percentage / 100) * bar_length)
     bar = "█" * filled + "░" * (bar_length - filled)
@@ -226,7 +230,12 @@ def query(question, conversation_history=None):
             print(f"   ⚠️  Context window is {context_percentage:.1f}% full!")
             print(f"      Use /clear to reset history if needed")
     
-    print("⏳ Searching...")
+     """ 
+    
+    
+    
+    
+    #print("⏳ Searching...")
     
     try:
         # ── STEP 1: Configure LLM with settings ────────────────────────────────
@@ -257,7 +266,7 @@ def query(question, conversation_history=None):
         
         # ── STEP 4: Stream and display answer ──────────────────────────────────
         # Print answer as tokens arrive (like ChatGPT)
-        print("\n📝 Answer:")
+        print("📝 Answer:")
         print("-" * 70)
         
         result = ""
@@ -269,8 +278,11 @@ def query(question, conversation_history=None):
         
         print("\n" + "-" * 70)
         
+        
+        
         # ── STEP 5: Show which documents were used ────────────────────────────
         # Display source files and relevance scores (0.0-1.0)
+        """
         print(f"\n📚 Sources used ({len(response.source_nodes)} chunks):")
         for i, node in enumerate(response.source_nodes, 1):
             fname = node.metadata.get("filename", "unknown")     # Original file name
@@ -280,6 +292,8 @@ def query(question, conversation_history=None):
             
             print(f"   {i}. {rel_path}")
             print(f"      Type: {ftype} | Relevance: {score:.3f}")
+        """
+        
         
         # ── STEP 6: Save full output to markdown file ──────────────────────────
         # Create output directory if it doesn't exist
@@ -318,7 +332,7 @@ def query(question, conversation_history=None):
         with open(out_file, "w") as f:
             f.write(output_content)
         
-        print(f"\n✅ Saved to: {out_file}\n")
+        print(f"✅ Saved to: {out_file}\n")
         
         # Return the answer for storing in conversation history
         return result
@@ -374,10 +388,11 @@ def main():
                 # ── Get user input (single or multi-line with /end terminator) ──
                 print("=" * 70)
                 print("Paste text (type /end to finish, /bye to exit):")
+                print("=" * 70)
                 lines = []
                 
                 while True:
-                    line = input()
+                    line = input(">>>")
                     
                     # Check for terminator or exit command
                     if line.strip() == ".":
