@@ -11,6 +11,7 @@ Stop:  type  quit / exit / /bye  or press Ctrl+C
 """
 
 import datetime
+import os
 import sys
 
 from llama_index.llms.ollama import Ollama
@@ -43,6 +44,7 @@ HISTORY_BUFFER = 4500
 
 # Example filename:  session_20260425_143207.md
 timestamp    = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+os.makedirs("output", exist_ok=True)
 SESSION_FILE = f"output/chat_session_{timestamp}.md"
 
 
@@ -112,10 +114,20 @@ def run():
 
     try:
         while True:
-            # get input from user
-            user_input = input("You: ").strip()
+            # collect multi-line input — type . on its own line to send
+            print("You (type . to send):")
+            lines = []
+            while True:
+                line = input()
+                if line.strip() == ".":
+                    break
+                if line.strip().lower() in ["quit", "exit", "goodbye", "/bye"]:
+                    lines = [line.strip()]   # pass to exit check below
+                    break
+                lines.append(line)
+            user_input = "\n".join(lines).strip()
 
-            # skip empty lines
+            # skip empty input
             if not user_input:
                 continue
 
