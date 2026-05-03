@@ -105,7 +105,7 @@ print("✓ Index ready\n")
 # ── Session log — one file per run, timestamped ───────────────────────────
 os.makedirs("output", exist_ok=True)
 _ts          = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-SESSION_FILE = f"output/session_{_ts}.md"
+SESSION_FILE = f"output/rag_session_{_ts}.md"
 
 # ── Chat engine — RAG + role/content history, created once per session ────
 # chat_mode="condense_plus_context":
