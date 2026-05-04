@@ -34,6 +34,7 @@ import chromadb
 
 OLLAMA_URL = "http://10.0.0.38:11434"
 LLM_MODEL = "qwen2.5-coder:7b"
+#LLM_MODEL = "qwen3.5:latest"
 EMBED_MODEL = "nomic-embed-text"
 CHROMA_PATH = "./chroma_db"
 COLLECTION_NAME = "code_files"

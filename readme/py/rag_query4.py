@@ -3,7 +3,7 @@
 RAG Query 4 — Ask questions about your ingested code/datasheets
 ===============================================================
 
-Uses LlamaIndex chat_engine (chat_mode="context"):
+Uses LlamaIndex chat_engine (chat_mode="condense_plus_context"):
   - RAG: retrieves relevant chunks from ChromaDB on every question
   - Chat: maintains role/content history automatically
   - Streaming: token by token output
@@ -105,10 +105,10 @@ print("✓ Index ready\n")
 # ── Session log — one file per run, timestamped ───────────────────────────
 os.makedirs("output", exist_ok=True)
 _ts          = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-SESSION_FILE = f"output/session_{_ts}.md"
+SESSION_FILE = f"output/rag_session_{_ts}.md"
 
 # ── Chat engine — RAG + role/content history, created once per session ────
-# chat_mode="context":
+# chat_mode="condense_plus_context":
 #   - retrieves TOP_K relevant chunks from ChromaDB on every question (RAG)
 #   - maintains conversation history in role/content format automatically
 from llama_index.core.memory import ChatMemoryBuffer
@@ -116,7 +116,7 @@ from llama_index.core.memory import ChatMemoryBuffer
 memory = ChatMemoryBuffer.from_defaults(token_limit=HISTORY_BUFFER)
 
 chat_engine = index.as_chat_engine(
-    chat_mode="context",
+    chat_mode="condense_plus_context",
     memory=memory,
     similarity_top_k=TOP_K,
     system_prompt=SYSTEM_PROMPT,
